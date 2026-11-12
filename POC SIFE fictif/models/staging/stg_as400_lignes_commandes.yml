@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_as400_lignes_commandes
+    description: "Dernière version connue de chaque ligne de commande AS/400, préparée pour l’intégration."
+    config:
+      materialized: view
+    columns:
+      - name: cle_commande
+        description: "Clé composée du code société et du numéro de commande."
+      - name: cle_ligne_commande
+        description: "Clé composée du code société, du numéro de commande et du numéro de ligne."
+        data_tests: [not_null, unique]
+      - name: cle_client
+        description: "Clé composée des codes société, agence et client."
+      - name: code_article
+        description: "Code article en majuscules, sans espaces en début ni en fin."
+      - name: date_commande
+        description: "Date de création de la commande."
+      - name: date_facturation
+        description: "Date de facturation de la ligne, renseignée pour les lignes facturées."
+      - name: statut_ligne
+        description: "Code de situation normalisé. FAC signifie facturée."
+      - name: quantite_brute
+        description: "Quantité au format texte telle que reçue de la source."
+      - name: quantite_commandee
+        description: "Quantité convertie en entier. NULL si la conversion échoue."
+      - name: prix_unitaire_vente_ht
+        description: "Prix de vente unitaire hors taxes avant remise."
+      - name: taux_remise_pct
+        description: "Remise exprimée en pourcentage. Une valeur de 6 correspond à 6 %."

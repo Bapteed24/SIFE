@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: dim_dates
+    description: >
+      Calendrier du 1er janvier 2020 au 31 décembre 2035, avec une ligne
+      par jour. Permet d'analyser les facturations au jour, à la semaine
+      ISO et au mois.
+    config:
+      materialized: view
+
+    columns:
+      - name: date_jour
+        description: Date du jour et clé de la dimension calendrier.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: debut_semaine
+        description: Date du lundi de la semaine ISO du jour.
+        data_tests:
+          - not_null
+
+      - name: debut_mois
+        description: Date du premier jour du mois.
+        data_tests:
+          - not_null
+
+      - name: annee
+        description: Année civile du jour.
+        data_tests:
+          - not_null

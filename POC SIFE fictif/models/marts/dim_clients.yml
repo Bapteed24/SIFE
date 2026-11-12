@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: dim_clients
+    description: >
+      Une ligne par client identifié au sein d'une société et d'une agence.
+      La dimension permet d'analyser les ventes par client, agence et région.
+    config:
+      materialized: view
+
+    columns:
+      - name: cle_client
+        description: >
+          Clé composée du code société, du code agence et du code client.
+          Elle relie la dimension aux lignes facturées.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: code_client
+        description: Code du client au sein de son agence.
+        data_tests:
+          - not_null
+
+      - name: nom_client
+        description: Libellé du client issu de la source AS400.
+
+      - name: code_societe
+        description: Code de la société du client.
+
+      - name: code_agence
+        description: Code de l'agence du client.
+
+      - name: nom_agence
+        description: Nom de l'agence du client.
+
+      - name: code_region
+        description: Code de la région à laquelle appartient l'agence.

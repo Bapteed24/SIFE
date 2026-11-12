@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_as400_clients
+    config:
+      materialized: view
+    description: "Clients AS/400 préparés pour la BI. Une ligne attendue par combinaison société, agence et client."
+    columns:
+      - name: cle_client
+        description: "Clé composée des codes société, agence et client, séparés par |. Exemple S01|GS01|C001."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: code_societe
+        description: "Code de la société à laquelle le client est rattaché."
+
+      - name: code_agence
+        description: "Code de l’agence à laquelle le client est rattaché."
+
+      - name: code_client
+        description: "Code client dans l’AS/400. Le même code peut exister dans plusieurs agences."
+
+      - name: nom_client
+        description: "Libellé du client tel qu’il apparaît dans l’extrait AS/400."
+
+      - name: code_segment
+        description: "Segment commercial du client. Dans le POC, les valeurs sont INDUSTRIE, MAINTENANCE et GRANDS_COMPTES."

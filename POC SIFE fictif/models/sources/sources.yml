@@ -1,0 +1,69 @@
+version: 2
+
+sources:
+  - name: as400
+    description: Extraits AS/400 simulés dans la zone de staging du POC.
+    database: SIFE_RECETTE
+    schema: STAGING
+    tables:
+      - name: societes
+        identifier: AS400_NSSOCPF
+        description: Sociétés du POC. Une ligne par société.
+
+      - name: regions
+        identifier: AS400_REGIONPF
+        description: Régions commerciales du POC.
+
+      - name: agences
+        identifier: AS400_AGENCE_DEMO
+        description: Agences rattachées à une société et à une région commerciale.
+
+      - name: commerciaux
+        identifier: AS400_REPRESPF
+        description: Commerciaux par agence et profil commercial.
+
+      - name: clients
+        identifier: AS400_NSCLIPF
+        description: Clients par société et agence. Le code client peut se répéter entre agences.
+
+      - name: fournisseurs
+        identifier: AS400_NSFOUPF
+        description: Fournisseurs et pays de rattachement.
+
+      - name: hierarchie_produits
+        identifier: AS400_STAPRDPF
+        description: Familles, sous-familles et types de produits.
+
+      - name: articles
+        identifier: AS400_NSARTPF
+        description: Catalogue d’articles. Certains articles ont plusieurs versions de leur coût d’achat.
+
+      - name: lignes_commandes
+        identifier: AS400_NSPCCP2
+        description: Dernière version source de chaque ligne de commande.
+
+  - name: excel
+    description: Extraits Excel simulés contenant les objectifs commerciaux du POC.
+    database: SIFE_RECETTE
+    schema: STAGING
+    tables:
+      - name: objectifs_agence_jour
+        identifier: EXCEL_OBJ_JOUR
+        description: Objectifs de chiffre d’affaires, de marge et de port par agence et jour ouvré. Certains objectifs ont été révisés.
+
+      - name: objectifs_taux_marge_utilisateur
+        identifier: EXCEL_OBJ_TX_MARGE_EPH_UTIL
+        description: Objectifs annuels de taux de marge par utilisateur et agence.
+
+      - name: objectifs_taux_port_utilisateur
+        identifier: EXCEL_TX_PO_APPA_UTIL
+        description: Objectifs annuels de taux de port apparent par utilisateur et agence.
+
+  - name: as400_archives
+    description: Historique des extraits de commandes AS/400 simulés.
+    database: SIFE_RECETTE
+    schema: STAGING_ARCHIVES
+    tables:
+      - name: lignes_commandes
+        identifier: AS400_NSPCCP2
+        description: Versions successives des lignes de commande, avec des doublons simulés.

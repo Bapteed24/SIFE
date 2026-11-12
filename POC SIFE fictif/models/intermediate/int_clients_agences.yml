@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: int_clients_agences
+    description: "Clients AS/400 enrichis avec leur agence et leur région. Une ligne attendue par combinaison société, agence et client."
+    config:
+      materialized: view
+    columns:
+      - name: cle_client
+        description: "Clé du client dans sa société et son agence."
+        data_tests: [not_null, unique]
+
+      - name: code_societe
+        description: "Code société issu de la fiche client."
+
+      - name: code_agence
+        description: "Code agence issu de la fiche client."
+
+      - name: code_client
+        description: "Code du client dans son agence."
+
+      - name: nom_client
+        description: "Libellé du client dans l’extrait AS/400."
+
+      - name: code_segment
+        description: "Code du segment commercial du client."
+
+      - name: cle_agence
+        description: "Clé de l’agence retrouvée dans le modèle de staging des agences."
+        data_tests: [not_null]
+
+      - name: nom_agence
+        description: "Libellé de l’agence retrouvée."
+
+      - name: code_region
+        description: "Code de la région commerciale de l’agence."

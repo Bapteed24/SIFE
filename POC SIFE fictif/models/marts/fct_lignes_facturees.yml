@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: fct_lignes_facturees
+    description: >
+      Une ligne par ligne de commande facturée et sans anomalie détectée.
+      Le modèle conserve le détail par article et par date de facturation
+      pour permettre l'analyse du chiffre d'affaires dans Power BI.
+    config:
+      materialized: view
+
+    columns:
+      - name: cle_ligne_commande
+        description: >
+          Identifiant de la ligne de commande, composé du code société,
+          du numéro de commande et du numéro de ligne.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: cle_commande
+        description: >
+          Identifiant de la commande, composé du code société et du numéro
+          de commande. Plusieurs lignes peuvent appartenir à la même commande.
+        data_tests:
+          - not_null
+
+      - name: cle_client
+        description: >
+          Identifiant du client, composé du code société, du code agence
+          et du code client.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_clients')
+                field: cle_client
+
+      - name: code_societe
+        description: Code de la société associée à la ligne de commande.
+
+      - name: code_agence
+        description: Code de l'agence associée au client de la commande.
+
+      - name: code_region
+        description: Code de la région associée à l'agence du client.
+
+      - name: code_article
+        description: Code de l'article vendu, nettoyé et mis en majuscules.
+
+      - name: date_facturation
+        description: Date de facturation de la ligne, utilisée pour les analyses de CA.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_jour
+
+      - name: quantite_facturee
+        description: Quantité commandée portée par la ligne au statut facturé.
+        data_tests:
+          - not_null
+
+      - name: montant_facture_ht
+        description: >
+          Montant net HT calculé à partir de la quantité commandée, du prix
+          unitaire de vente HT et du taux de remise. Le montant est arrondi
+          à deux décimales par ligne.
+        data_tests:
+          - not_null

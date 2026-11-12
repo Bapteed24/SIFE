@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_as400_agences
+    description: "Agences commerciales AS/400. Une ligne attendue par combinaison société et agence."
+    config:
+      materialized: view
+    columns:
+      - name: cle_agence
+        description: "Clé composée des codes société et agence, séparés par |."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: code_societe
+        description: "Code de la société à laquelle appartient l’agence."
+
+      - name: code_agence
+        description: "Code de l’agence dans l’extrait AS/400."
+
+      - name: nom_agence
+        description: "Libellé de l’agence."
+
+      - name: code_region
+        description: "Code de la région commerciale à laquelle l’agence est rattachée."

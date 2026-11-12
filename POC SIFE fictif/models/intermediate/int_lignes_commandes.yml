@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: int_lignes_commandes
+    description: "Lignes de commande enrichies avec le périmètre du client et le montant net HT. Une ligne attendue par clé de ligne de commande."
+    config:
+      materialized: view
+    columns:
+      - name: cle_ligne_commande
+        description: "Clé de la ligne de commande. Son unicité contrôle le résultat de la jointure."
+        data_tests: [not_null, unique]
+      - name: cle_commande
+        description: "Clé commune aux lignes d’une même commande."
+      - name: cle_client
+        description: "Clé client portée par la commande."
+      - name: code_societe
+        description: "Code société retrouvé dans le modèle clients-agences."
+      - name: code_agence
+        description: "Code agence retrouvé dans le modèle clients-agences."
+      - name: code_region
+        description: "Code région de l’agence du client."
+      - name: date_facturation
+        description: "Date de facturation de la ligne, si elle est facturée."
+      - name: statut_ligne
+        description: "Code de situation normalisé de la ligne."
+      - name: quantite_brute
+        description: "Quantité reçue au format texte, conservée pour le diagnostic."
+      - name: quantite_commandee
+        description: "Quantité convertie en entier."
+      - name: prix_unitaire_vente_ht
+        description: "Prix de vente unitaire hors taxes avant remise."
+      - name: taux_remise_pct
+        description: "Remise exprimée en pourcentage."
+      - name: motif_anomalie
+        description: "Premier motif détecté selon l’ordre des contrôles du modèle. NULL si aucun contrôle ne détecte d’anomalie."
+      - name: montant_net_ht
+        description: "Quantité multipliée par le prix unitaire HT après remise, arrondie à deux décimales. NULL pour les lignes en anomalie."
